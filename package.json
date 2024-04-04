@@ -9,12 +9,14 @@
     "swagger": "node swagger.js"
   },
   "dependencies": {
+    "@pedroslopez/moduleraid": "https://github.com/eduardohr-muniz/moduleRaid",
     "axios": "^1.6.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^6.11.2",
     "qr-image": "^3.2.0",
     "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.7.5",
     "swagger-ui-express": "^4.6.3",
     "whatsapp-web.js": "1.23.1-alpha.5"
   },

@@ -1,10 +1,26 @@
 const axios = require('axios')
 const { globalApiKey, disabledCallbacks } = require('./config')
-
+//$ websocket------------
+const port = process.env.WEBHOOK_SOCKET_PORT;
+const enableWebHook = process.env.WEBHOOK_SOCKET_PORT;
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+server.listen(port, () => console.log(`Listening on port ${port}`));
+const { Server } = require("socket.io");
+const io = new Server(server);
+//$ websocket------------
 // Trigger webhook endpoint
 const triggerWebhook = (webhookURL, sessionId, dataType, data) => {
-  axios.post(webhookURL, { dataType, data, sessionId }, { headers: { 'x-api-key': globalApiKey } })
-    .catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''))
+  if (!enableWebHook) return;
+  if (data?.message) {
+    if (data?.message?.fromMe) return;
+    if (data?.message?.id?.participant) return;
+    io.emit('batatinha', data.message).catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''));
+  }
+  // axios.post(webhookURL, { dataType, data, sessionId }, { headers: { 'x-api-key': globalApiKey } })
+  //   .catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''))
 }
 
 // Function to send a response with error status and message
