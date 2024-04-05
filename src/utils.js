@@ -13,11 +13,15 @@ const io = new Server(server);
 //$ websocket------------
 // Trigger webhook endpoint
 const triggerWebhook = (webhookURL, sessionId, dataType, data) => {
-  if (!enableWebHook) return;
-  if (data?.message) {
-    if (data?.message?.fromMe) return;
-    if (data?.message?.id?.participant) return;
-    io.emit('batatinha', data.message).catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''));
+  try {
+    if (!enableWebHook) return;
+    if (data?.message) {
+      if (data?.message?.fromMe) return;
+      if (data?.message?.id?.participant) return;
+      io.emit('paip', data.message);
+    }
+  } catch (error) {
+    console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || '')
   }
   // axios.post(webhookURL, { dataType, data, sessionId }, { headers: { 'x-api-key': globalApiKey } })
   //   .catch(error => console.error('Failed to send new message webhook:', sessionId, dataType, error.message, data || ''))
