@@ -2,7 +2,7 @@ const axios = require('axios')
 const { globalApiKey, disabledCallbacks } = require('./config')
 //$ websocket------------
 const port = process.env.WEBHOOK_SOCKET_PORT;
-const enableWebHook = process.env.WEBHOOK_SOCKET_PORT;
+const enableWebHook = process.env.ENABLE_WEBHOOK;
 const express = require('express');
 const app = express();
 const http = require('http');
